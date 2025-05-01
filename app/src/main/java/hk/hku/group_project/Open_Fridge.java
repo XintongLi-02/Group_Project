@@ -63,7 +63,7 @@ public class Open_Fridge extends AppCompatActivity {
 
         //
         userSession = new UserSession(getApplicationContext());
-        currentGroupId = userSession.getUserId();
+        currentGroupId = userSession.getGroupId();
 
         // 初始化视图
         initViews();
