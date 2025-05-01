@@ -50,6 +50,7 @@ import java.util.Locale;
 import hk.hku.group_project.database.DatabaseHelper;
 import hk.hku.group_project.database.FirebaseCallback;
 import hk.hku.group_project.database.FoodItem;
+import hk.hku.group_project.utils.UserSession;
 
 public class add_food extends AppCompatActivity {
 
@@ -58,6 +59,8 @@ public class add_food extends AppCompatActivity {
     private AutoCompleteTextView actvOwners;
     private RadioGroup rgStorage;
     private Button btnSubmit;
+    private UserSession userSession;
+    private String currentGroupId;
     private List<String> groupMembers = new ArrayList<>();
     private final Calendar calendar = Calendar.getInstance();
 
@@ -69,6 +72,10 @@ public class add_food extends AppCompatActivity {
         FirebaseApp.initializeApp(this);
         FirebaseDatabase.getInstance(); // 可选，不用强制赋值
         setContentView(R.layout.activity_add_food);
+
+        //
+        userSession = new UserSession(getApplicationContext());
+        currentGroupId = userSession.getGroupId();
 
         // 初始化视图
         initViews();
@@ -96,7 +103,6 @@ public class add_food extends AppCompatActivity {
     }
 
     private void loadGroupMembers() {
-        String currentGroupId = "group123"; // 临时写死，后续替换为实际group
         DatabaseHelper.getGroupMembers(currentGroupId, new FirebaseCallback<List<String>>() {
             @Override
             public void onSuccess(List<String> members) {
